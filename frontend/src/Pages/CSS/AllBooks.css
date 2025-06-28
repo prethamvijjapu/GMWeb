@@ -1,0 +1,55 @@
+.all-books-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.all-books-container h1 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    color: #222;
+    font-family: "Georgia", serif;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 28px;
+    width: 100%;
+}
+
+.load-more-btn {
+    margin-top: 36px;
+    padding: 14px 40px;
+    font-size: 1.15rem;
+    background-color: #ff4141;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
+.load-more-btn:hover {
+    background-color: #e63636;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 20px;
+    }
+
+    .all-books-container h1 {
+        font-size: 2rem;
+    }
+
+    .load-more-btn {
+        padding: 12px 32px;
+        font-size: 1rem;
+    }
+}
