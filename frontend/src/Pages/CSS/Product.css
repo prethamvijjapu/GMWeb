@@ -1,0 +1,108 @@
+/* src/Pages/CSS/Product.css */
+
+.product-detail-page {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.back-btn svg {
+  margin-right: 8px;
+}
+
+.product-detail-card {
+  display: flex;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.product-image-section {
+  flex: 1 1 300px;
+  text-align: center;
+  padding: 16px;
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.product-info-section {
+  flex: 2 1 400px;
+  padding: 24px;
+}
+
+.product-info-section h1 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.product-author,
+.product-description {
+  margin: 12px 0;
+  color: #444;
+}
+
+.product-tags {
+  margin: 12px 0;
+}
+
+.product-tag {
+  background: #f0f0f0;
+  color: #333;
+  padding: 4px 8px;
+  margin-right: 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.like-btn {
+  margin-top: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.like-btn.liked {
+  background: #ffefef;
+  border-color: #ff4141;
+}
+
+.like-btn span {
+  margin-left: 6px;
+}
+
+.like-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .product-detail-card {
+    flex-direction: column;
+  }
+  .product-image-section,
+  .product-info-section {
+    flex: 1 1 100%;
+  }
+}

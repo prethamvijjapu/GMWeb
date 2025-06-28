@@ -1,0 +1,142 @@
+/* LoginSignup.css */
+
+.loginsignup {
+  width: 100%;
+  min-height: 100vh;
+  background: #fce3fe;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.loginsignup-container {
+  width: 580px;
+  background: #fff;
+  padding: 40px 60px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.loginsignup-container h1 {
+  margin: 0 0 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+.loginsignupfields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loginsignupfields input {
+  height: 48px;
+  width: 100%;
+  padding: 0 14px;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #5c5c5c;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Password field wrapper */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  /* Inherit height from generic input */
+  padding-right: 40px; /* Space for toggle icon */
+}
+
+/* Eye toggle button */
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.password-toggle:hover {
+  color: #555;
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  margin: 30px 0 10px;
+  background: #ff4141;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submit-btn:hover {
+  background: #e33636;
+}
+
+/* Toggle link below button */
+.loginsignup-toggle {
+  font-size: 0.95rem;
+  color: #5c5c5c;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.loginsignup-toggle span {
+  color: #ff4141;
+  font-weight: 600;
+  cursor: pointer;
+  transition: text-decoration 0.2s;
+}
+
+.loginsignup-toggle span:hover {
+  text-decoration: underline;
+}
+
+/* Terms checkbox (only in Sign Up mode) */
+.loginsignup-agree {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: #5c5c5c;
+}
+
+.loginsignup-agree label {
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .loginsignup-container {
+    width: 90%;
+    padding: 30px 20px;
+  }
+  .loginsignupfields {
+    gap: 16px;
+  }
+  .loginsignupfields input,
+  .submit-btn {
+    height: 44px;
+  }
+  .password-toggle {
+    right: 10px;
+    font-size: 1rem;
+  }
+  .loginsignup-container h1 {
+    font-size: 1.6rem;
+  }
+}
