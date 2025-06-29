@@ -1,82 +1,95 @@
-// src/Pages/LikedPage.jsx
+// src/Pages/LoginSignup.jsx
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import booksData from '../Components/Assets/books';
-import Item from '../Components/Item/Item';
-import './CSS/LikedPage.css';
+import { useContext, useRef, useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Context/AuthContext';
+import './CSS/LoginSignup.css';
 
-const LikedPage = () => {
-    const [likedBooks, setLikedBooks] = useState(null);
-    const [error, setError] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+// Get the backend API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL;
 
-    // Fetch liked books from backend
-    const fetchLikedBooks = useCallback(async () => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setIsLoggedIn(false);
-            setLikedBooks([]);
-            return;
-        }
-        try {
-            const res = await axios.get('http://localhost:4000/liked-books', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            setLikedBooks(res.data.likedBooks || []);
-        } catch (err) {
-            setError(
-                err.response?.data?.message ||
-                'Failed to load liked books. Please try again.'
-            );
-            setLikedBooks([]);
-        }
-    }, []);
+const LoginSignup = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
-    // Initial load
-    useEffect(() => {
-        fetchLikedBooks();
-    }, [fetchLikedBooks]);
+  const toggleMode = () => setIsLogin(prev => !prev);
+  const togglePassword = () => setShowPassword(prev => !prev);
 
-    if (!isLoggedIn) {
-        return (
-            <div className="liked-page">
-                <h1>Liked Books</h1>
-                <p>You must <Link to="/loginsignup">log in</Link> to view your liked books.</p>
-            </div>
-        );
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const name = nameRef.current?.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    try {
+      if (isLogin) {
+        // LOGIN
+        const res = await axios.post(`${API_URL}/login`, { email, password });
+        const { token, message } = res.data;
+        alert(message || 'Login successful!');
+        // persist and update global auth state
+        login(token, message.replace(/^Hi, /, '').replace(/!$/, ''));
+        navigate('/dashboard');
+      } else {
+        // SIGNUP
+        const res = await axios.post(`${API_URL}/signup`, { name, email, password });
+        alert(res.data.message || 'Signup successful! Please login.');
+        setIsLogin(true);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Server error');
     }
+  };
 
-    if (likedBooks === null) {
-        return <p>Loading your liked books…</p>;
-    }
-
-    // Map IDs to book objects and filter out missing entries
-    const likedBookObjects = likedBooks
-        .map(id => booksData.find(book => book.id === id))
-        .filter(Boolean);
-
-    return (
-        <div className="liked-page">
-            <h1>Liked Books</h1>
-            {error && <p className="error">{error}</p>}
-
-            {likedBookObjects.length > 0 ? (
-                <div className="liked-books-list-grid">
-                    {likedBookObjects.map(book => (
-                        <Item
-                            key={book.id}
-                            item={book}
-                            // Tell each Item to trigger a refresh after like/unlike
-                            onLikeChanged={fetchLikedBooks}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <p>You haven’t liked any books yet.</p>
+  return (
+    <div className="loginsignup">
+      <div className="loginsignup-container">
+        <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="loginsignupfields">
+            {!isLogin && (
+              <input type="text" placeholder="Your Name" ref={nameRef} required />
             )}
-        </div>
-    );
+            <input type="email" placeholder="Email Address" ref={emailRef} required />
+            <div className="password-field">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                ref={passwordRef}
+                required
+              />
+              <span className="password-toggle" onClick={togglePassword}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+          </div>
+          <button type="submit" className="submit-btn">
+            {isLogin ? 'Login' : 'Continue'}
+          </button>
+        </form>
+        <p className="loginsignup-toggle">
+          {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
+          <span onClick={toggleMode}>
+            {isLogin ? 'Sign Up' : 'Login'}
+          </span>
+        </p>
+        {!isLogin && (
+          <div className="loginsignup-agree">
+            <input type="checkbox" id="agree" required />
+            <label htmlFor="agree">
+              By continuing, I agree to Terms of Use & Privacy Policy
+            </label>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
-export default LikedPage;
+export default LoginSignup;
