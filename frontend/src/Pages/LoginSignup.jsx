@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Context/AuthContext';
 import './CSS/LoginSignup.css';
 
+// Get the backend API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL;
+
 const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +30,7 @@ const LoginSignup = () => {
     try {
       if (isLogin) {
         // LOGIN
-        const res = await axios.post('http://localhost:4000/login', { email, password });
+        const res = await axios.post(`${API_URL}/login`, { email, password });
         const { token, message } = res.data;
         alert(message || 'Login successful!');
         // persist and update global auth state
@@ -35,7 +38,7 @@ const LoginSignup = () => {
         navigate('/dashboard');
       } else {
         // SIGNUP
-        const res = await axios.post('http://localhost:4000/signup', { name, email, password });
+        const res = await axios.post(`${API_URL}/signup`, { name, email, password });
         alert(res.data.message || 'Signup successful! Please login.');
         setIsLogin(true);
       }
