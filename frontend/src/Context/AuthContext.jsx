@@ -7,10 +7,13 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
+    // Get the backend API URL from environment variable
+    const API_URL = process.env.REACT_APP_API_URL;
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) return;
-        axios.get('http://localhost:4000/profile', {
+        axios.get(`${API_URL}/profile`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => setUser(res.data.user))
@@ -18,7 +21,7 @@ export const AuthProvider = ({ children }) => {
                 localStorage.removeItem('token');
                 localStorage.removeItem('userName');
             });
-    }, []);
+    }, [API_URL]);
 
     const login = (token, name) => {
         localStorage.setItem('token', token);
