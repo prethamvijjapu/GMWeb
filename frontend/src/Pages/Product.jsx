@@ -6,6 +6,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import all_books from '../Components/Assets/books';
 import './CSS/Product.css';
 
+// Get the backend API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Product = () => {
     const { productId } = useParams();
     const navigate = useNavigate();
@@ -22,7 +25,7 @@ const Product = () => {
         }
         const fetchLiked = async () => {
             try {
-                const res = await axios.get('http://localhost:4000/liked-books', {
+                const res = await axios.get(`${API_URL}/liked-books`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setLiked(res.data.likedBooks.includes(book.id));
@@ -45,11 +48,11 @@ const Product = () => {
         if (!token) return navigate('/loginsignup');
         try {
             if (!liked) {
-                await axios.post('http://localhost:4000/like', { bookId: book.id }, {
+                await axios.post(`${API_URL}/like`, { bookId: book.id }, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                await axios.post('http://localhost:4000/unlike', { bookId: book.id }, {
+                await axios.post(`${API_URL}/unlike`, { bookId: book.id }, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             }
