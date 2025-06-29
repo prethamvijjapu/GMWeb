@@ -5,6 +5,9 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import "./Item.css";
 
+// Get the backend API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Item = ({ item, onLikeChanged }) => {
     const [liked, setLiked] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -18,7 +21,7 @@ const Item = ({ item, onLikeChanged }) => {
                 return;
             }
             try {
-                const res = await axios.get('http://localhost:4000/liked-books', {
+                const res = await axios.get(`${API_URL}/liked-books`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setLiked(res.data.likedBooks.includes(item.id));
@@ -29,7 +32,7 @@ const Item = ({ item, onLikeChanged }) => {
             }
         };
         fetchLiked();
-    }, [item.id, token]);
+    }, [item.id, token, API_URL]);
 
     // Handle like/unlike and notify parent
     const handleLike = async e => {
@@ -42,13 +45,13 @@ const Item = ({ item, onLikeChanged }) => {
         try {
             if (!liked) {
                 await axios.post(
-                    'http://localhost:4000/like',
+                    `${API_URL}/like`,
                     { bookId: item.id },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
             } else {
                 await axios.post(
-                    'http://localhost:4000/unlike',
+                    `${API_URL}/unlike`,
                     { bookId: item.id },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
