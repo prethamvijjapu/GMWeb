@@ -6,6 +6,9 @@ import booksData from '../Components/Assets/books';
 import Item from '../Components/Item/Item';
 import './CSS/RecommendedPage.css';
 
+// Get the backend API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL;
+
 const RecommendedPage = () => {
     const [recommendedBooks, setRecommendedBooks] = useState(null);
     const [error, setError] = useState('');
@@ -22,7 +25,7 @@ const RecommendedPage = () => {
         }
         try {
             setLoading(true);
-            const res = await axios.get('http://localhost:4000/recommended-books', {
+            const res = await axios.get(`${API_URL}/recommended-books`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setRecommendedBooks(res.data.recommendedBooks || []);
@@ -44,7 +47,7 @@ const RecommendedPage = () => {
         }
         try {
             setLoading(true);
-            await axios.post('http://localhost:4000/generate-recommendations', {}, {
+            await axios.post(`${API_URL}/generate-recommendations`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             await fetchRecommendations();
@@ -58,13 +61,14 @@ const RecommendedPage = () => {
 
     useEffect(() => {
         fetchRecommendations();
+        // eslint-disable-next-line
     }, []);
 
     if (!isLoggedIn) {
         return (
             <div className="recommended-page">
                 <h1>Recommended Books</h1>
-                <p>You must <Link to="/login">log in</Link> to view your recommendations.</p>
+                <p>You must <Link to="/loginsignup">log in</Link> to view your recommendations.</p>
             </div>
         );
     }
