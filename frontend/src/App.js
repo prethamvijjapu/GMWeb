@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
+import SearchBox from './Components/SearchBox/SearchBox';
 import AllBooks from './Pages/AllBooks'; // <-- Import AllBooks
 import HomePage from './Pages/HomePage';
 import LikedPage from './Pages/LikedPage';
@@ -15,6 +16,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
+        <SearchBox/>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/recomended" element={<RecomendedPage />} />
